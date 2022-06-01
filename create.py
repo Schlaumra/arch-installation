@@ -55,8 +55,9 @@ for file in os.listdir(package_path):
 base = installation_files.pop(installation_files.index(package_path + "base.apkgi"))
 
 with open(package_path + 'base.apkgi', 'r') as f:
-    base_pkgs = [x[1] + ' ' for x in read_pkg_file(f)]
-
+    base_pkgs = ''.join(x[1] + ' ' for x in read_pkg_file(f))
+print(base_pkgs)
+exit()
 print(os.system('fdisk -l'))
 if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
     print("Info: ")
@@ -86,7 +87,7 @@ if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y
     os.system(f'mkfs.fat -F32 {boot_part}')
     os.system(f'mount --mkdir {boot_part} /mnt/boot')
     os.system('pacman -Sy')
-    os.system('pacman -S reflector')
+    os.system('pacman -S reflector --noconfirm')
     os.system('reflector --latest 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist')
     os.system(f'pacstrap /mnt {base_pkgs}')
     os.system('genfstab -U /mnt >> /mnt/etc/fstab')
