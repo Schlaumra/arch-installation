@@ -14,9 +14,9 @@ enc_vol_name = conf['enc_vol_name']
 installation_files = []
 
 
-def install_aur_package(pkg_name, folder):
+def install_aur_package(pkg_name):
     os.system(f'git clone https://aur.archlinux.org/{pkg_name}.git')
-    os.chdir(folder)
+    os.chdir(pkg_name)
     os.system('makepkg -si')
 
 
@@ -76,7 +76,8 @@ os.system('pacman -Syu --noconfirm')
 os.system(f'pacman -S {" ".join(pkgs_pm)} --noconfirm')
 
 old_path = os.getcwd()
-os.chdir('/opt')
+os.mkdir('/opt/aur')
+os.chdir('/opt/aur')
 for pkg in pkgs_aur:
-    install_aur_package(pkg, f'aur/{pkg}')
+    install_aur_package(pkg)
 os.chdir(old_path)
