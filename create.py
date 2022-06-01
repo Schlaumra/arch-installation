@@ -120,7 +120,6 @@ os.system('reflector --latest 5 --sort rate --protocol https --save /etc/pacman.
 os.system(f'pacstrap /mnt {base_pkgs}')
 os.system('genfstab -U /mnt >> /mnt/etc/fstab')
 os.system('arch-chroot /mnt')
-os.system('bash')
 os.system(f'ln -sf /usr/share/zoneinfo/{conf["timezone"]} /etc/localtime')
 os.system('hwclock --systohc')
 for i in conf['locales'].split(', '):
