@@ -22,8 +22,6 @@ os.system('timedatectl set-ntp true')
 
 installation_files = []
 
-print(os.curdir + package_path)
-exit()
 for file in os.listdir(os.curdir + package_path):
     if os.path.isfile(file) and file.endswith(".apkgi"):
         installation_files.append(file)
