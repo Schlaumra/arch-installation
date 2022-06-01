@@ -5,6 +5,21 @@ import requests
 
 efi = '/sys/firmware/efi/efivars'
 package_path = os.curdir + '/packages/'
+luks_part_name = 'cryptLVM'
+enc_vol_name = 'archVG'
+encrypted_disk = """
++-----------------------------------------------------------------------+ +----------------+
+| Logical volume 1      | Logical volume 2      | Logical volume 3      | | Boot partition |
+|                       |                       |                       | |                |
+| [SWAP]                | /                     | /home                 | | /boot          |
+|                       |                       |                       | | 200MiB         |
+| /dev/MyVolGroup/swap  | /dev/MyVolGroup/root  | /dev/MyVolGroup/home  | |                |
+|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _|_ _ _ _ _ _ _ _ _ _ _ _| | (may be on     |
+|                                                                       | | other device)  |
+|                         LUKS2 encrypted partition                     | |                |
+|                           /dev/sda1                                   | | /dev/sdb1      |
++-----------------------------------------------------------------------+ +----------------+
+"""
 
 
 def read_pkg_file(f):
@@ -43,4 +58,26 @@ with open(package_path + 'base.apkgi', 'r') as f:
     print([x for x in read_pkg_file(f)])
 
 print(os.system('fdisk -l'))
-os.system('fdisk ' + input('Enter disk'))
+if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
+    print("Info: ")
+    print(encrypted_disk)
+    print("Steps: ")
+    print("1) Select Disk")
+    print("2) Create partition for encrypted LUKS")
+    print("3) Create boot partition (200MiB)")
+    os.system('fdisk ' + input('Enter disk: '))
+    os.system('clear')
+    print(os.system('fdisk -l'))
+    luks_part = input("Enter LUKS partition: ")
+    boot_part = input("Enter Boot partition: ")
+    os.system('cryptsetup luksFormat ' + luks_part)
+    os.system(f'cryptsetup open {luks_part} {luks_part_name}')
+    os.system(f'pvcreate /dev/mapper/{luks_part_name}')
+    os.system(f'vgcreate {enc_vol_name} /dev/mapper/{luks_part_name}')
+else:
+    print("Steps: ")
+    print("1) Create partitions")
+    print("2) Format partitions")
+    print("3) exit")
+    os.system('bash')
+    print(os.system('fdisk -l'))
