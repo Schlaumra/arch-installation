@@ -56,8 +56,6 @@ base = installation_files.pop(installation_files.index(package_path + "base.apkg
 
 with open(package_path + 'base.apkgi', 'r') as f:
     base_pkgs = ''.join(x[1] + ' ' for x in read_pkg_file(f))
-print(base_pkgs)
-exit()
 print(os.system('fdisk -l'))
 if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
     print("Info: ")
