@@ -8,9 +8,9 @@ PM	linux-lts
 PM	linux-lts-headers
 PM	linux-zen
 PM	linux-zen-headers
-PM  lvm2
-PM  grub
-PM  efibootmgr
-PM  sudo
-PM  zsh
-
+PM	lvm2
+PM	grub
+PM	efibootmgr
+PM	sudo
+PM	zsh
+PM  git

@@ -40,6 +40,6 @@ def read_pkg_file(f):
         line = line.lstrip()
         if not line.startswith("#"):
             line = line.strip()
-            pkg = line.split("\t")
+            pkg = line.split()
             if len(pkg) == 2:
                 yield pkg

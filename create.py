@@ -25,17 +25,9 @@ if not os.path.isdir(common.efi):
 os.system('timedatectl set-ntp true')
 os.system(f'timedatectl set-timezone {conf["timezone"]}')
 
-installation_files = []
-
-for file in os.listdir(common.package_path):
-    file = common.package_path + file
-    if os.path.isfile(file) and file.endswith(".apkgi"):
-        installation_files.append(file)
-
-base = installation_files.pop(installation_files.index(common.package_path + "base.apkgi"))
-
 with open(common.package_path + 'base.apkgi', 'r') as f:
     base_pkgs = ''.join(x[1] + ' ' for x in common.read_pkg_file(f))
+
 print(os.system('fdisk -l'))
 if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
     print("Info: ")
@@ -80,9 +72,13 @@ os.system('pacman -S reflector --noconfirm')
 os.system('reflector --latest 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist')
 os.system(f'pacstrap /mnt {base_pkgs}')
 os.system('genfstab -U /mnt >> /mnt/etc/fstab')
+os.system(f'echo "" >> arch.conf')
+os.system(f'echo "# Runtime" >> arch.conf')
 os.system(f'echo "luks_part = {luks_part}" >> arch.conf')
 os.system(f'echo "luks_part_name = {luks_part_name}" >> arch.conf')
 os.system(f'echo "enc_vol_name = {enc_vol_name}" >> arch.conf')
 os.system('mkdir /mnt/opt/arch-installation')
-os.system('cp .* /mnt/opt/arch-installation')
-os.system('arch-chroot /mnt')
+os.system('cp -r * /mnt/opt/arch-installation')
+os.system('arch-chroot /mnt /usr/bin/python /opt/arch-installation/chroot.py')
+os.system('umount -R /mnt')
+os.system('reboot')
