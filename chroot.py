@@ -17,7 +17,7 @@ installation_files = []
 def install_aur_package(pkg_name):
     os.system(f'git clone https://aur.archlinux.org/{pkg_name}.git')
     os.chdir(pkg_name)
-    os.system('makepkg -si')
+    os.system(f'sudo -u {conf["user"]} makepkg -si')
 
 
 for file in os.listdir(common.package_path):
@@ -42,7 +42,6 @@ os.system(f'echo "{common.tmpfs}" >> /etc/fstab')
 os.system('passwd')
 os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
 os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
-input()
 if not luks_part:
     luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
 if luks_part:

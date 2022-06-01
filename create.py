@@ -51,7 +51,7 @@ if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y
     size_root = input("Enter size of root (ex. 100G, see lvcreate): ")
     size_home = input("Enter size of home (ex. 100%FREE): ")
     os.system(f'lvcreate -L {size_root} {enc_vol_name} -n root')
-    os.system(f'lvcreate -L {size_home} {enc_vol_name} -n home')
+    os.system(f'lvcreate -L {size_home} {enc_vol_name} -n home') # TODO Some error
     os.system(f'mkfs.ext4 /dev/{enc_vol_name}/root')
     os.system(f'mkfs.ext4 /dev/{enc_vol_name}/home')
     os.system(f'mount /dev/{enc_vol_name}/root /mnt')

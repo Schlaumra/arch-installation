@@ -15,6 +15,7 @@ PM	htop
 PM	git
 PM	pv
 PM  python
+PM  python-pip
 PM	python-packaging
 PM	sed
 PM	wget
