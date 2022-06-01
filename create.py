@@ -3,11 +3,20 @@
 import os
 import requests
 
+with open('arch.conf', 'r') as f:
+    conf = {}
+    for line in f:
+        if not line.startswith('#'):
+            line = line.split('=')
+            if len(line) == 2:
+                conf[line[0].strip()] = line[1].strip()
+
 efi = '/sys/firmware/efi/efivars'
 package_path = os.curdir + '/packages/'
-luks_part_name = 'cryptLVM'
-enc_vol_name = 'archVG'
-encrypted_disk = """
+tmpfs = """
+tmpfs	/tmp	tmpfs	defaults,noatime,mode=1777	0	0
+"""
+encrypted_disk_msg = """
 +-----------------------------------------------------------------------+ +----------------+
 | Logical volume 1      | Logical volume 2      | Logical volume 3      | | Boot partition |
 |                       |                       |                       | |                |
@@ -20,7 +29,16 @@ encrypted_disk = """
 |                           /dev/sda1                                   | | /dev/sdb1      |
 +-----------------------------------------------------------------------+ +----------------+
 """
-hooks = '(base udev modconf memdisk archiso archiso_loop_mnt'
+hooks = '(base udev autodetect modconf block filesystems keyboard keymap encrypt lvm2 fsck)'
+hosts = f"""
+127.0.0.1        localhost
+::1              localhost
+127.0.1.1        {conf['hostname']}
+"""
+luks_part = None
+luks_part_name = None
+enc_vol_name = None
+
 
 def read_pkg_file(f):
     for line in f:
@@ -44,6 +62,7 @@ if not os.path.isdir(efi):
 
 # Set ntp
 os.system('timedatectl set-ntp true')
+os.system(f'timedatectl set-timezone {conf["timezone"]}')
 
 installation_files = []
 
@@ -59,7 +78,7 @@ with open(package_path + 'base.apkgi', 'r') as f:
 print(os.system('fdisk -l'))
 if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
     print("Info: ")
-    print(encrypted_disk)
+    print(encrypted_disk_msg)
     print("Steps: ")
     print("1) Select Disk")
     print("2) Create partition for encrypted LUKS")
@@ -70,8 +89,10 @@ if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y
     luks_part = input("Enter LUKS partition: ")
     boot_part = input("Enter Boot partition: ")
     os.system('cryptsetup luksFormat ' + luks_part)
+    luks_part_name = input("Enter the name for LUKS partition: ")
     os.system(f'cryptsetup open {luks_part} {luks_part_name}')
     os.system(f'pvcreate /dev/mapper/{luks_part_name}')
+    luks_part_name = input("Enter the name for LVM partition: ")
     os.system(f'vgcreate {enc_vol_name} /dev/mapper/{luks_part_name}')
     os.system('vgdisplay')
     size_root = input("Enter size of root (ex. 100G, see lvcreate): ")
@@ -100,3 +121,36 @@ os.system(f'pacstrap /mnt {base_pkgs}')
 os.system('genfstab -U /mnt >> /mnt/etc/fstab')
 os.system('arch-chroot /mnt')
 os.system('bash')
+os.system(f'ln -sf /usr/share/zoneinfo/{conf["timezone"]} /etc/localtime')
+os.system('hwclock --systohc')
+for i in conf['locales'].split(', '):
+    os.system(f'echo {i} >> /etc/locale.gen')
+os.system('locale-gen')
+os.system(f'echo "LANG={conf["lang"]}" >> /etc/locale.conf')
+os.system(f'echo "LANGUAGE={conf["language"]}" >> /etc/locale.conf')
+os.system('echo "LC_ALL=C" >> /etc/locale.conf')
+os.system(f'echo "KEYMAP={conf["keymap"]}" >> /etc/vconsole.conf')
+os.system(f'echo "{conf["hostname"]}" >> /etc/hostname')
+os.system(f'echo "{hosts}" >> /etc/hosts')
+os.system(f'echo "{tmpfs}" >> /etc/fstab')
+os.system('passwd')
+os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
+os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
+
+if not luks_part:
+    luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
+if luks_part:
+    if not luks_part_name:
+        luks_part_name = input("Enter encrypted disk (ex. cryptLVM): ")
+    if not enc_vol_name:
+        enc_vol_name = input("Enter LVM path (ex. /dev/MyVolGroup/root): ")
+    if luks_part_name and enc_vol_name:
+        os.system('sed - i \'/^'"HOOKS"'/d\' /etc/mkinitcpio.conf')
+        os.system(f'echo "HOOKS={hooks}" >> /etc/mkinitcpio.conf')
+        os.system('mkinitcpio -P')
+        os.system('sed - i \'/^'"GRUB_CMDLINE_LINUX"'/d\' /etc/default/grub')
+        os.system(f'echo "GRUB_CMDLINE_LINUX="cryptdevice={luks_part}:{luks_part_name} root=/dev/{enc_vol_name}/root"" >> /etc/default/grub')
+os.system('grub-mkconfig -o /boot/grub/grub.cfg')
+os.system('exit')
+os.system('umount -R /mnt')
+os.system('reboot')

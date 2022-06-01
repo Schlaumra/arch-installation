@@ -8,6 +8,7 @@ PM	ethtool
 PM	ipw2100-fw
 PM	ipw2200-fw
 PM	iwd
+PM  wpa_supplicant
 PM	networkmanager
 PM	networkmanager-openvpn
 PM	openvpn
