@@ -11,6 +11,7 @@ PM	linux-zen-headers
 PM	lvm2
 PM	grub
 PM	efibootmgr
+PM  os-prober
 PM	sudo
 PM	zsh
 PM  git
