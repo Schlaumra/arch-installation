@@ -35,7 +35,7 @@ encrypted_disk_msg = """
 hooks = '(base udev autodetect modconf block filesystems keyboard keymap encrypt lvm2 fsck)'
 
 
-def read_pkg_file(f):
+def lread_pkg_file(f):
     for line in f:
         line = line.lstrip()
         if not line.startswith("#"):
