@@ -1,0 +1,44 @@
+# Network
+PM	b43-fwcutter
+PM	broadcom-wl-dkms
+PM	dhclient
+PM	dialog
+PM	bind
+PM	ethtool
+PM	ipw2100-fw
+PM	ipw2200-fw
+PM	iwd
+PM	networkmanager
+PM	networkmanager-openvpn
+PM	openvpn
+PM	openssh
+
+
+# Tools
+PM	whois
+PM	nmap
+PM	wireshark-cli
+PM	wireshark-qt
+
+# Wireless
+PM	wireless-regdb
+PM	wireless_tools
+PM	wpa_supplicant
+
+
+# Firewall
+PM	firewalld
+PM	python-pyqt5
+PM	python-capng
+
+
+# Bluetooth
+PM	bluez
+PM	bluez-utils
+PM	bluez-tools
+
+
+# Pacman
+PM	pacman-contrib
+PM	pkgfile
+PM	reflector

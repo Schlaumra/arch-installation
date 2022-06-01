@@ -1,0 +1,14 @@
+# Audio
+PM	alsa-firmware
+PM	alsa-plugins
+PM	alsa-utils
+PM	alsa-tools
+PM	pulseaudio
+PM	pulseaudio-alsa
+PM	pulseaudio-bluetooth
+PM	pavucontrol
+PM	pipewire-pulse
+PM	pipewire-alsa
+PM	pipewire-jack
+PM	jack2
+

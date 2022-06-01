@@ -1,0 +1,10 @@
+# Filesystem
+PM	efitools
+PM	haveged
+PM	nfs-utils
+PM	ntfs-3g
+PM	ntp
+PM	smartmontools
+PM	unrar
+PM	unzip
+PM	xz

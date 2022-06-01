@@ -1,0 +1,58 @@
+# DE
+PM	plasma-meta
+PM	sddm
+
+
+# DE Integration
+PM	accountsservice
+PM	bash-completion
+PM	ffmpegthumbnailer
+PM	gst-libav
+PM	gst-plugin-pipewire
+PM	gst-plugins-bad
+PM	gst-plugins-ugly
+PM	gst-plugins-good
+PM	libgsf
+PM	xdg-user-dirs
+PM	xdg-utils
+
+
+# Tools
+PM	ark
+PM	kate
+PM	kalendar
+PM	kaddressbook
+PM	elisa
+PM	kalarm
+PM	kamera
+PM	kcalc
+PM	kcharselect
+PM	kcolorchooser
+PM	kcron
+PM	kdenlive
+PM	kdf
+PM	filelight
+PM	kdepim-addons
+PM	kfind
+PM	kgpg
+PM	kleopatra
+PM	kmag
+PM	kmail
+PM	kmix
+PM	konsole
+PM	kontact
+PM	korganizer
+PM	ktimer
+PM	ktorrent
+PM	kwalletmanager
+PM	markdownpart
+PM	okular
+PM	partitionmanager
+PM	print-manager
+PM	skanlite
+PM	skanpage
+PM	spectacle
+PM	akonadi-calendar-tools
+PM	akonadi-import-wizard
+PM	akonadiconsole
+PM	kdeconnect

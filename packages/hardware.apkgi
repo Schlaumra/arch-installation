@@ -1,0 +1,5 @@
+# Hardware
+PM	dmidecode
+PM	hwdetect
+PM	intel-ucode
+PM	mtools

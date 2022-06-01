@@ -1,0 +1,11 @@
+# Kernel
+PM	base
+PM	base-devel
+PM	linux
+PM	linux-firmware
+PM	linux-headers
+PM	linux-lts
+PM	linux-lts-headers
+PM	linux-zen
+PM	linux-zen-headers
+

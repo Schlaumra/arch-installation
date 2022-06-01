@@ -1,0 +1,172 @@
+# Disk Tools
+PM	duf
+PM	findutils
+PM	rsync
+PM	mc
+PM	gparted
+
+# Systeminfo
+PM	glances
+PM	hwinfo
+PM	neofetch
+PM	htop
+
+# General
+PM	git
+PM	pv
+PM	python-packaging
+PM	sed
+PM	wget
+PM	file-roller
+PM	os-prober
+PM	w3m
+PM	youtube-dl
+PM	transmission-cli
+PM	transmission-gtk
+PM	android-tools
+PM	arduino
+PM	arduino-cli
+PM	bitwarden
+PM	bleachbit
+PM	clamav
+PM	clamtk
+PM	calligra-plan
+PM	logwatch
+PM	docker
+PM	filezilla
+PM	gnucash
+PM	obsidian
+PM	syncthing
+PM	wavemon
+PM	xournalpp
+AUR	ventoy-bin
+AUR	tutanota-desktop-bin
+AUR	sonixd-appimage
+AUR	freetube-bin
+AUR	lbry-app-bin
+AUR	brave-bin
+AUR	minecraft-launcher
+AUR	authy
+AUR	anki-bin
+AUR	headsetcontrol
+AUR	jellyfin-media-player-git
+AUR	joplin-appimage
+AUR	lbry-app-bin
+
+# Codecs
+PM	ffmpeg
+
+# Privileges
+PM	sudo
+
+# Power Management
+PM	tlp
+
+# Browser
+PM	tor
+PM	torbrowser-launcher
+PM	firefox
+PM	chromium
+
+# Printing
+PM	cups
+PM	cups-filters
+PM	cups-pdf
+PM	foomatic-db
+PM	foomatic-db-engine
+PM	foomatic-db-gutenprint-ppds
+PM	foomatic-db-nonfree-ppds
+PM	foomatic-db-ppds
+PM	ghostscript
+PM	gutenprint
+PM	splix
+PM	xsane
+
+# Terminal
+PM	most
+PM	less
+PM	terminator
+PM	alacritty
+PM	zsh
+PM	grml-zsh-config
+PM	zsh-syntax-highlighting
+PM	fish
+PM	vi
+PM	vim
+PM	nano
+PM	xterm
+PM	dbus
+PM	man-db
+PM	tmux
+
+# Special
+PM	genius
+PM	geogebra
+PM	bleachbit
+PM	stellarium
+
+# Coding
+PM	atom
+
+# Office
+PM	libreoffice-still
+PM	libreoffice-still-de
+PM	thunderbird
+
+# Music
+PM	audacity
+
+# Image
+PM	gimp
+PM	inkscape
+PM	blender
+PM	krita
+
+# Video
+PM	vlc
+PM	obs-studio
+
+# Instant messaging
+PM	telegram-desktop
+PM	element-desktop
+PM	discord
+PM	signal-desktop
+
+# Gaming
+PM	lutris
+PM	dolphin-emu
+PM	retroarch
+PM	steam
+
+# Virtualbox
+virtualbox virtualbox-host-dkms virtualbox-guest-utils virtualbox-guest-dkms 
+
+# Fonts
+PM	adobe-source-code-pro-fonts
+PM	adobe-source-sans-pro-fonts
+PM	adobe-source-serif-pro-fonts
+PM	bdf-unifont
+PM	cantarell-fonts
+PM	gnu-free-fonts
+PM	noto-fonts
+PM	noto-fonts-cjk
+PM	noto-fonts-emoji
+PM	dina-font
+PM	bdf-unifont
+PM	terminus-font
+PM	ttf-bitstream-vera
+PM	ttf-croscore
+PM	ttf-dejavu
+PM	gnu-free-fonts
+PM	ttf-liberation
+PM	noto-fonts-extra
+PM	ttf-carlito
+PM	xorg-fonts-alias-cyrillic
+PM	xorg-fonts-alias-misc
+PM	xorg-fonts-cyrillic
+PM	xorg-fonts-misc
+PM	xorg-fonts-type1
+PM	awesome-terminal-fonts
+PM	otf-latin-modern
+PM	ttf-droid
+PM	ttf-linux-libertine

@@ -1,0 +1,5 @@
+evince
+file-roller
+qt5-base
+qt5-webkit
+dbus
