@@ -35,13 +35,14 @@ os.system('locale-gen')
 os.system(f'echo "LANG={conf["lang"]}" >> /etc/locale.conf')
 os.system(f'echo "LANGUAGE={conf["language"]}" >> /etc/locale.conf')
 os.system('echo "LC_ALL=C" >> /etc/locale.conf')
+os.system('nano /etc/locale.conf')
 os.system(f'echo "KEYMAP={conf["keymap"]}" >> /etc/vconsole.conf')
 os.system(f'echo "{conf["hostname"]}" >> /etc/hostname')
 os.system(f'echo "{common.hosts}" >> /etc/hosts')
 os.system(f'echo "{common.tmpfs}" >> /etc/fstab')
 os.system('passwd')
 os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
-os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
+os.system('grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB')
 if not luks_part:
     luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
 if luks_part:
@@ -55,12 +56,17 @@ if luks_part:
         os.system('mkinitcpio -P')
         os.system('sed -i \'/^'"GRUB_CMDLINE_LINUX"'/d\' /etc/default/grub')
         os.system(f'echo "GRUB_CMDLINE_LINUX="cryptdevice={luks_part}:{luks_part_name} root=/dev/{enc_vol_name}/root"" >> /etc/default/grub')
+        os.system('nano /etc/mkinitcpio.conf')
+        os.system('nano /etc/default/grub')
 os.system('grub-mkconfig -o /boot/grub/grub.cfg')
-
+os.system('ls /boot')
+os.system('ls /boot/grub')
+input("Continue...")
 os.system('sed -i \'/^'"ParallelDownloads"'/d\' /etc/pacman.conf')
-os.system(f'echo "ParallelDownloads = {conf["ParallelDownloads"]}" >> /etc/mkinitcpio.conf')
+os.system(f'echo "ParallelDownloads = {conf["ParallelDownloads"]}" >> /etc/pacman.conf')
 os.system('sed -i \'/^'"\[multilib\]"'/,+2d\' /etc/pacman.conf')
 os.system(f'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf')
+os.system('nano /etc/pacman.conf')
 pkgs_pm = []
 pkgs_aur = []
 for i in installation_files:
