@@ -4,7 +4,17 @@ import os
 import requests
 
 efi = '/sys/firmware/efi/efivars'
-package_path = '/packages'
+package_path = os.curdir + '/packages/'
+
+
+def read_pkg_file(f):
+    for line in f:
+        line = line.lstrip()
+        if not line.startswith("#"):
+            line = line.strip()
+            pkg = line.split("\t")
+            if len(pkg) == 2:
+                yield pkg
 
 # Check connection
 try:
@@ -22,15 +32,15 @@ os.system('timedatectl set-ntp true')
 
 installation_files = []
 
-for file in os.listdir(os.curdir + package_path):
+for file in os.listdir(package_path):
+    file = package_path + file
     if os.path.isfile(file) and file.endswith(".apkgi"):
         installation_files.append(file)
 
-base = installation_files.pop(installation_files.index("base.apkgi"))
+base = installation_files.pop(installation_files.index(package_path + "base.apkgi"))
 
-with open('packages/base.apkgi', 'r') as f:
-    for line in f:
-        line = line.strip()
-        print("line", line)
-        pkg = line.split("\t")
-        print("srcpkg", pkg)
+with open(package_path + 'base.apkgi', 'r') as f:
+    print([x for x in read_pkg_file(f)])
+
+print(os.system('fdisk -l'))
+os.system('fdisk ' + input('Enter disk'))
