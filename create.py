@@ -20,7 +20,7 @@ encrypted_disk = """
 |                           /dev/sda1                                   | | /dev/sdb1      |
 +-----------------------------------------------------------------------+ +----------------+
 """
-
+hooks = '(base udev modconf memdisk archiso archiso_loop_mnt'
 
 def read_pkg_file(f):
     for line in f:
@@ -55,7 +55,7 @@ for file in os.listdir(package_path):
 base = installation_files.pop(installation_files.index(package_path + "base.apkgi"))
 
 with open(package_path + 'base.apkgi', 'r') as f:
-    print([x for x in read_pkg_file(f)])
+    base_pkgs = [x[1] + ' ' for x in read_pkg_file(f)]
 
 print(os.system('fdisk -l'))
 if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y':
@@ -74,6 +74,24 @@ if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y
     os.system(f'cryptsetup open {luks_part} {luks_part_name}')
     os.system(f'pvcreate /dev/mapper/{luks_part_name}')
     os.system(f'vgcreate {enc_vol_name} /dev/mapper/{luks_part_name}')
+    os.system('vgdisplay')
+    size_root = input("Enter size of root (ex. 100G, see lvcreate): ")
+    size_home = input("Enter size of home (ex. 100%FREE): ")
+    os.system(f'lvcreate -L {size_root} {enc_vol_name} -n root')
+    os.system(f'lvcreate -L {size_home} {enc_vol_name} -n home')
+    os.system(f'mkfs.ext4 /dev/{enc_vol_name}/root')
+    os.system(f'mkfs.ext4 /dev/{enc_vol_name}/home')
+    os.system(f'mount /dev/{enc_vol_name}/root /mnt')
+    os.system(f'mount --mkdir /dev/{enc_vol_name}/home /mnt/home')
+    os.system(f'mkfs.fat -F32 {boot_part}')
+    os.system(f'mount --mkdir {boot_part} /mnt/boot')
+    os.system('pacman -Sy')
+    os.system('pacman -S reflector')
+    os.system('reflector --latest 5 --sort rate --protocol https --save /etc/pacman.d/mirrorlist')
+    os.system(f'pacstrap /mnt {base_pkgs}')
+    os.system('genfstab -U /mnt >> /mnt/etc/fstab')
+    os.system('arch-chroot /mnt')
+    os.system('bash')
 else:
     print("Steps: ")
     print("1) Create partitions")
