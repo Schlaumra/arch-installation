@@ -14,3 +14,4 @@ PM	efibootmgr
 PM	sudo
 PM	zsh
 PM  git
+PM  nano
