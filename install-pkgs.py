@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 
 import common
@@ -28,7 +29,7 @@ os.system(f'pacman -S {" ".join(pkgs_pm)}')
 
 old_path = os.getcwd()
 os.mkdir('/opt/aur')
-os.system(f'chown -R nobody /opt/aur')
+os.system(f'chown -R {common.conf["user"]} /opt/aur')
 os.chdir('/opt/aur')
 for pkg in pkgs_aur:
     common.install_aur_package(pkg)

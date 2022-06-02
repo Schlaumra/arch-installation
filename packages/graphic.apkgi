@@ -30,7 +30,7 @@ PM	libva-vdpau-driver
 PM	libva-mesa-driver
 
 PM	libvdpau
-PM	lib-vdpau-driver
+PM	libva-vdpau-driver
 PM	mesa-vdpau
 PM	lib32-mesa-vdpau
 PM	lib32-libva-vdpau-driver
@@ -50,6 +50,6 @@ PM	radeontop
 PM	intel-gpu-tools
 PM	libva-utils
 PM	vdpauinfo
-PM	vulkaninfo
+PM	vulkan-tools
 PM	mesa-utils
 

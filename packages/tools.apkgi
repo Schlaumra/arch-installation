@@ -103,10 +103,10 @@ PM	man-db
 PM	tmux
 
 # Special
-PM	genius
+AUR	genius
 PM	geogebra
 PM	bleachbit
-PM	stellarium
+AUR	stellarium
 
 # Coding
 PM	atom
@@ -148,14 +148,13 @@ virtualbox virtualbox-host-dkms virtualbox-guest-utils virtualbox-guest-dkms
 PM	adobe-source-code-pro-fonts
 PM	adobe-source-sans-pro-fonts
 PM	adobe-source-serif-pro-fonts
-PM	bdf-unifont
+AUR	bdf-unifont
 PM	cantarell-fonts
 PM	gnu-free-fonts
 PM	noto-fonts
 PM	noto-fonts-cjk
 PM	noto-fonts-emoji
 PM	dina-font
-PM	bdf-unifont
 PM	terminus-font
 PM	ttf-bitstream-vera
 PM	ttf-croscore
