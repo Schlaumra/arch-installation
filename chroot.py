@@ -42,7 +42,7 @@ os.system(f'echo "{common.hosts}" >> /etc/hosts')
 os.system(f'echo "{common.tmpfs}" >> /etc/fstab')
 os.system('passwd')
 os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
-os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
+os.system('grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB')
 if not luks_part:
     luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
 if luks_part:
