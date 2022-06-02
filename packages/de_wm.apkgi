@@ -2,7 +2,6 @@
 PM	plasma-meta
 PM	sddm
 
-
 # DE Integration
 PM	accountsservice
 PM	bash-completion
@@ -15,7 +14,6 @@ PM	gst-plugins-good
 PM	libgsf
 PM	xdg-user-dirs
 PM	xdg-utils
-
 
 # Tools
 PM	ark

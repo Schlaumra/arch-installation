@@ -37,7 +37,7 @@ os.system(f'echo "{common.tmpfs}" >> /etc/fstab')
 os.system('passwd')
 os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
 os.system(f'passwd {conf["user"]}')
-os.system(f"sed -i 's/.*%wheel ALL=(ALL) ALL.*/%wheel ALL=(ALL) ALL/' /etc/sudoers")
+os.system(f"sed -i 's/.*%wheel ALL=(ALL:ALL) ALL.*/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers")
 os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
 if not luks_part:
     luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
@@ -77,10 +77,13 @@ print(" ".join(pkgs_pm))
 input("Install...")
 os.system(f'pacman -S {" ".join(pkgs_pm)}')
 
+# Enable sddm
+os.system('systemctl enable sddm')
+os.system('systemctl enable NetworkManager')
 old_path = os.getcwd()
 os.mkdir('/opt/aur')
 os.system(f'chown -R {conf["user"]} /opt/aur')
-os.chdir('/opt/aur')
 for pkg in pkgs_aur:
+    os.chdir('/opt/aur')
     common.install_aur_package(pkg)
 os.chdir(old_path)

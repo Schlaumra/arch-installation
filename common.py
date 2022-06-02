@@ -47,5 +47,6 @@ def read_pkg_file(f):
 
 def install_aur_package(pkg_name):
     os.system(f'git clone https://aur.archlinux.org/{pkg_name}.git')
+    os.system(f'chown -R {conf["user"]} {pkg_name}')
     os.chdir(pkg_name)
     os.system(f'sudo -u {conf["user"]} makepkg -si')
