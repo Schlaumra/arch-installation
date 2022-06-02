@@ -42,7 +42,7 @@ os.system(f'echo "{common.hosts}" >> /etc/hosts')
 os.system(f'echo "{common.tmpfs}" >> /etc/fstab')
 os.system('passwd')
 os.system(f'useradd -m -G wheel -s /bin/zsh {conf["user"]}')
-os.system('grub-install --target=x86_64-efi --efi-directory=/boot/EFI --bootloader-id=GRUB')
+os.system('grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB')
 if not luks_part:
     luks_part = input("Enter encrypted disk (ex. /dev/sda3, Enter for none): ")
 if luks_part:
@@ -55,8 +55,8 @@ if luks_part:
         os.system(f'echo "HOOKS={common.hooks}" >> /etc/mkinitcpio.conf')
         os.system('mkinitcpio -P')
         uuid = os.popen("blkid -o value -s UUID {luks_part}").read().strip()
-
         os.system(f'sed -i \'s/.*GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=UUID={uuid}:{luks_part_name} root=\/dev\/{enc_vol_name}\/root loglevel=3 quiet"/\' /etc/default/grub')
+        os.system(f'sed -i \'s/.*GRUB_ENABLE_CRYPTODISK.*/GRUB_ENABLE_CRYPTODISK=y/\' /etc/default/grub')
         os.system('nano /etc/mkinitcpio.conf')
         os.system('nano /etc/default/grub')
 os.system('grub-mkconfig -o /boot/grub/grub.cfg')

@@ -57,7 +57,7 @@ if input("Do you want to create your own disk layout? (y/n default: n): ") != 'y
     os.system(f'mount /dev/{enc_vol_name}/root /mnt')
     os.system(f'mount --mkdir /dev/{enc_vol_name}/home /mnt/home')
     os.system(f'mkfs.fat -F32 {boot_part}')
-    os.system(f'mount --mkdir {boot_part} /mnt/boot/EFI')
+    os.system(f'mount --mkdir {boot_part} /mnt/boot/')
     os.system('fdisk -l')
     os.system('lsblk')
     input("Continue...")
