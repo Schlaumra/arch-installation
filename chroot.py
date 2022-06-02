@@ -54,19 +54,17 @@ if luks_part:
         os.system('sed -i \'/^'"HOOKS"'/d\' /etc/mkinitcpio.conf')
         os.system(f'echo "HOOKS={common.hooks}" >> /etc/mkinitcpio.conf')
         os.system('mkinitcpio -P')
-        os.system('sed -i \'/^'"GRUB_CMDLINE_LINUX"'/d\' /etc/default/grub')
         uuid = os.popen("blkid -o value -s UUID {luks_part}").read().strip()
-        os.system(f'echo "GRUB_CMDLINE_LINUX="cryptdevice=UUID={uuid}:{luks_part_name} root=/dev/{enc_vol_name}/root"" >> /etc/default/grub')
+
+        os.system(f'sed -i \'s/.*GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=UUID={uuid}:{luks_part_name} root=\/dev\/{enc_vol_name}\/root loglevel=3 quiet"/\' /etc/default/grub')
         os.system('nano /etc/mkinitcpio.conf')
         os.system('nano /etc/default/grub')
 os.system('grub-mkconfig -o /boot/grub/grub.cfg')
 os.system('ls /boot')
 os.system('ls /boot/grub')
 input("Continue...")
-# os.system('sed -i \'/^'"ParallelDownloads"'/d\' /etc/pacman.conf')
-# os.system(f'echo "ParallelDownloads = {conf["ParallelDownloads"]}" >> /etc/pacman.conf')
-os.system('sed -i \'/^'"\[multilib\]"'/,+2d\' /etc/pacman.conf')
-os.system(f'echo -e "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist" >> /etc/pacman.conf')
+os.system(f'sed -i \'s/.*ParallelDownloads.*/ParallelDownloads = {conf["ParallelDownloads"]}/\' /etc/pacman.conf')
+os.system("sed -i 's/#\[multilib\]/\[multilib\]\\nInclude = \/etc\/pacman.d\/mirrorlist/' /etc/pacman.conf")
 os.system('nano /etc/pacman.conf')
 pkgs_pm = []
 pkgs_aur = []
