@@ -43,3 +43,9 @@ def read_pkg_file(f):
             pkg = line.split()
             if len(pkg) == 2:
                 yield pkg
+
+
+def install_aur_package(pkg_name):
+    os.system(f'git clone https://aur.archlinux.org/{pkg_name}.git')
+    os.chdir(pkg_name)
+    os.system(f'sudo -u {conf["user"]} makepkg -si')

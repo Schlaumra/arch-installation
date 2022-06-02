@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a91f6dc-1797-4b0a-bac4-c35aa20cd4aa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/chroot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chroot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testfile" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

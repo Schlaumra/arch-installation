@@ -14,12 +14,6 @@ enc_vol_name = conf['enc_vol_name']
 installation_files = []
 
 
-def install_aur_package(pkg_name):
-    os.system(f'git clone https://aur.archlinux.org/{pkg_name}.git')
-    os.chdir(pkg_name)
-    os.system(f'sudo -u {conf["user"]} makepkg -si')
-
-
 for file in os.listdir(common.package_path):
     file = common.package_path + file
     if os.path.isfile(file) and file.endswith(".apkgi"):
@@ -86,5 +80,5 @@ os.mkdir('/opt/aur')
 os.system(f'chown -R {conf["user"]}:{conf["user"]} /opt/aur')
 os.chdir('/opt/aur')
 for pkg in pkgs_aur:
-    install_aur_package(pkg)
+    common.install_aur_package(pkg)
 os.chdir(old_path)
