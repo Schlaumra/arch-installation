@@ -54,7 +54,7 @@ if luks_part:
         os.system('sed -i \'/^'"HOOKS"'/d\' /etc/mkinitcpio.conf')
         os.system(f'echo "HOOKS={common.hooks}" >> /etc/mkinitcpio.conf')
         os.system('mkinitcpio -P')
-        uuid = os.popen("blkid -o value -s UUID {luks_part}").read().strip()
+        uuid = os.popen(f"blkid -o value -s UUID {luks_part}").read().strip()
         os.system(f'sed -i \'s/.*GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT="cryptdevice=UUID={uuid}:{luks_part_name} root=\/dev\/{enc_vol_name}\/root loglevel=3 quiet"/\' /etc/default/grub')
         os.system(f'sed -i \'s/.*GRUB_ENABLE_CRYPTODISK.*/GRUB_ENABLE_CRYPTODISK=y/\' /etc/default/grub')
         os.system('nano /etc/mkinitcpio.conf')
@@ -77,10 +77,13 @@ for i in installation_files:
             elif pkg[0] == 'AUR':
                 pkgs_aur.append(pkg[1])
 os.system('pacman -Syu --noconfirm')
+print(" ".join(pkgs_pm))
+input("Install...")
 os.system(f'pacman -S {" ".join(pkgs_pm)} --noconfirm')
 
 old_path = os.getcwd()
 os.mkdir('/opt/aur')
+os.system(f'chown -R {conf["user"]}:{conf["user"]} /opt/aur')
 os.chdir('/opt/aur')
 for pkg in pkgs_aur:
     install_aur_package(pkg)
